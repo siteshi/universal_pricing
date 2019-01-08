@@ -1,2 +1,2 @@
 # universal_pricing
-Finastra interv
+Finastra Hackathon 2019 code repo
