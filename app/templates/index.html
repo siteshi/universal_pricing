@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>BlackBox-Scholes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+  
+  
+ 
+  
+</head>
+
+<body>
+
+	<style>
+	*, *:before, *:after {
+  box-sizing: border-box !important;
+}
+
+body {
+  font-family: sans-serif; 
+  padding: 60px 20px;
+}
+@media (min-width: 600px) {
+  body {
+    padding: 60px;
+  }
+}
+
+.range-slider {
+  margin: 60px 0 0 0%;
+}
+
+.range-slider {
+  width: 100%;
+}
+
+.range-slider__range {
+  -webkit-appearance: none;
+  width: calc(100% - (73px));
+  height: 10px;
+  border-radius: 5px;
+  background: #d7dcdf;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: #1abc9c;
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #1abc9c;
+}
+.range-slider__range:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px #1abc9c;
+}
+
+.range-slider__value {
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  color: #fff;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background: #2c3e50;
+  padding: 5px 10px;
+  margin-left: 8px;
+}
+.range-slider__value:after {
+  position: absolute;
+  top: 8px;
+  left: -7px;
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-right: 7px solid #2c3e50;
+  border-bottom: 7px solid transparent;
+  content: '';
+}
+
+::-moz-range-track {
+  background: #d7dcdf;
+  border: 0;
+}
+
+input::-moz-focus-inner,
+input::-moz-focus-outer {
+  border: 0;
+}
+
+</style>
+
+<center><h1><font color="#b278e7">BlackBox-Scholes</font></h1><h4>Neural Network Black-Scholes Function Approximation</h4></center>
+
+<div class="ui container">    
+    <div class="ui grid">
+        <div class="ui equal width row">
+            <div class="ui  column">
+                 <div class="ui padded grid">
+                      <div class="ui  column">
+                      	<div class="wrapper">
+	                           	<div class="range-slider" style="width:350px; margin-top: 2px;">
+							  		<center>Spot Price</center>
+							  		<input class="range-slider__range" type="range" value="100" min="0" max="500">
+							  		<span class="range-slider__value" id="spot_price">0</span>
+								</div>
+
+								<div class="range-slider" style="width:350px">
+							  		<center>Strike Price</center>
+							  		<input class="range-slider__range" type="range" value="100" min="0" max="500">
+							  		<span class="range-slider__value" id="strike_price">0</span>
+								</div>
+
+								<div class="range-slider" style="width:350px">
+							  		<center>Maturity (days)</center>
+							  		<input class="range-slider__range" type="range" value="100" min="0" max="500">
+							  		<span class="range-slider__value" id="maturity">0</span>
+								</div>
+
+								<div class="range-slider" style="width:350px">
+							  		<center>Volatility</center>
+							  		<input class="range-slider__range" type="range" value="100" min="0" max="500">
+							  		<span class="range-slider__value" id="volatility">0</span>
+								</div>
+
+								<div class="range-slider" style="width:350px">
+							  		<center>Annual Rate</center>
+							  		<input class="range-slider__range" type="range" value="100" min="0" max="500">
+							  		<span class="range-slider__value" id="rate">0</span>
+								</div>
+
+								<div class="range-slider" style="width:350px">
+							  		<center>Dividend Yield (Percent)</center>
+							  		<input class="range-slider__range" type="range" value="100" min="0" max="500">
+							  		<span class="range-slider__value" id="dividend">0</span>
+								</div>
+
+								<div class="range-slider" style="width:400px">
+									<center><button class="positive ui button">Submit</button>
+									</center>
+								</div>
+							</div>
+                           </div>
+                       
+                 </div>
+            </div>
+            <div class="ui column">
+                 <div class="ui padded grid">
+                           <div class="ui column">
+                           	
+                           	<center>
+                           		<div class="range-slider" style="width:400px; margin-top: 2px;">
+									<center><button class="ui blue button" onclick="myFunction()">Black-Scholes</button>
+									</center>
+								</div>
+								<div class="range-slider" style="width:400px; margin-top: 200px;">
+									<center><button class="ui blue button" onclick="myFunction2()">Neural Network</button>
+									</center>
+								</div>
+                           	</center>
+
+                           </div>
+                 </div>
+            </div>
+            <div class="ui column">
+                 <div class="ui padded grid">
+                           <div class="ui column">
+                           	<div id="myDIV" style="display: none;">
+								<center><h4>Black-Scholes Explanation</h4></center>
+								<hr>
+								<br>
+								<br>
+								<br>
+								</div>
+								<div id="myDIV2" style="display: none;">
+								<center><h4>Neural Network Explanation</h4><hr><br><br><br></center>
+								</div>
+                           </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+<script>
+function myFunction2() {
+  var x = document.getElementById("myDIV2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+
+<!--<div class="ui container">
+<div class="ui grid">
+
+
+	<div class="ui equal width row">
+    	<div class="ui column">
+    		<div>
+		  <div class="range-slider" style="width:400px">
+		  	<center>Spot Price</center>
+		  <input class="range-slider__range" type="range" value="100" min="0" max="500">
+		  <span class="range-slider__value">0</span>
+		</div>
+		<div class="range-slider" style="width:400px">
+			<center>Strike Price</center>
+		  <input class="range-slider__range" type="range" value="250" min="0" max="500" step="50">
+		  <span class="range-slider__value">0</span>
+		</div>
+		<div class="range-slider" style="width:400px">
+			<center>Maturity (days)</center>
+		  <input class="range-slider__range" type="range" value="400" min="0" max="500">
+		  <span class="range-slider__value">0</span>
+		</div>
+		<div class="range-slider" style="width:400px">
+			<center>Volatility Price</center>
+		  <input class="range-slider__range" type="range" value="400" min="0" max="500">
+		  <span class="range-slider__value">0</span>
+		</div>
+		<div class="range-slider" style="width:400px">
+			<center>Annual Rate</center>
+		  <input class="range-slider__range" type="range" value="400" min="0" max="500">
+		  <span class="range-slider__value">0</span>
+		</div>
+		<div class="range-slider" style="width:400px">
+			<center>Dividend yield (percent)</center>
+		  <input class="range-slider__range" type="range" value="400" min="0" max="500">
+		  <span class="range-slider__value">0</span>
+		</div>
+		<div class="range-slider" style="width:400px">
+		<center><button class="positive ui button">Submit</button>
+		</center>
+		</div>
+		</div>
+	</div>
+	</div>
+	<div class="ui column">
+	 <div class="ui padded grid">
+	      <div class="ui yellow row">
+	           <div class="ui column">2</div>
+	      </div>
+ 		</div>
+	</div>
+<div class="ui column">
+     <div class="ui padded grid">
+          <div class="ui red row">
+               <div class="ui column">3</div>
+          </div>
+     </div>
+</div>
+</div>
+</div> -->
+
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+  
+
+    <script  src="../static/js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
